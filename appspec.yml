@@ -1,23 +1,19 @@
-version: 0.0
-os: linux
+﻿version: 0.0
+os: "linux"
 files:
   - source: /
-    destination: /var/www/html/WordPress
+    destination: /home/ec2-user/app
+
 hooks:
   BeforeInstall:
-    - location: scripts/install_dependencies.sh
+    - location: scripts/before_install.sh
       timeout: 300
-      runas: root
+      runas: ec2-user
   AfterInstall:
-    - location: scripts/change_permissions.sh
+    - location: scripts/after_install.sh
       timeout: 300
-      runas: root
+      runas: ec2-user
   ApplicationStart:
     - location: scripts/start_server.sh
-    - location: scripts/create_test_db.sh
       timeout: 300
-      runas: root
-  ApplicationStop:
-    - location: scripts/stop_server.sh
-      timeout: 300
-      runas: root
+      runas: ec2-user
