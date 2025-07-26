@@ -21,5 +21,3 @@ echo ".NET Runtime installed successfully."
 # Optional: install other dependencies
 # sudo yum install -y nginx
 # sudo yum install -y git
-
-
