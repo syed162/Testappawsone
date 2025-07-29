@@ -3,10 +3,16 @@ set -e
 
 echo "Running start_server.sh..."
 
-# Name of the systemd service
 SERVICE_NAME="my-dotnet-app"
+SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
-# Reload systemd to ensure service file changes are picked up
+# Check if the service file exists
+if [ ! -f "$SERVICE_FILE" ]; then
+    echo "Error: $SERVICE_FILE does not exist."
+    exit 1
+fi
+
+# Reload systemd daemon
 echo "Reloading systemd daemon..."
 sudo systemctl daemon-reload
 
@@ -19,6 +25,7 @@ echo "Starting $SERVICE_NAME service..."
 sudo systemctl start "$SERVICE_NAME"
 
 # Optional: Check service status
+echo "Checking status of $SERVICE_NAME..."
 sudo systemctl status "$SERVICE_NAME" --no-pager
 
 echo "start_server.sh completed."
