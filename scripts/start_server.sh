@@ -1,21 +1,11 @@
 #!/bin/bash
-
 set -e
-
-echo "Starting the .NET application..."
-
-# Set the directory and DLL name of your app
-APP_DIR="/home/ec2-user/app"
+echo "Running startserver.sh..."
+APP_DIR="/var/www/myapp"
 APP_DLL="MyApp.dll"
+LOG_FILE="/var/log/myapp.log"
+cd $APP_DIR
+echo "Starting $APP_DLL..."
+nohup dotnet $APP_DLL > $LOG_FILE 2>&1 &
+echo "Application started. Logs are being written to $LOG_FILE"
 
-cd "$APP_DIR"
-
-# Optional: install .NET if not already installed (commented out)
-# echo "Installing .NET runtime..."
-# sudo yum install -y dotnet-runtime-6.0
-
-# Start the app in background
-echo "Running: dotnet $APP_DLL"
-nohup dotnet "$APP_DLL" > app.log 2>&1 &
-
-echo ".NET application started."

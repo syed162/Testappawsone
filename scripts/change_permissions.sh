@@ -1,19 +1,17 @@
 #!/bin/bash
-
 set -e
-
-APP_DIR="/home/ec2-user/app"
-
-echo "Changing ownership of the app directory to ec2-user..."
-sudo chown -R ec2-user:ec2-user "$APP_DIR"
-
-echo "Setting directory permissions..."
-sudo find "$APP_DIR" -type d -exec chmod 755 {} \;
-
-echo "Setting file permissions..."
-sudo find "$APP_DIR" -type f -exec chmod 644 {} \;
-
-# Ensure .NET DLL is executable (if needed)
-if [ -f "$APP_DIR/MyApp.dll" ]; then
-  sudo chmod +x "$APP_DIR/MyApp.dll"
+echo "Running change_permissions.sh..."
+APP_DIR="/var/www/myapp"
+APP_USER="ec2-user"
+APP_GROUP="ec2-user"
+# Ensure the directory exists
+if [ ! -d "$APP_DIR" ]; then
+  echo "Application directory $APP_DIR does not exist. Exiting."
+  exit 1
 fi
+# Set ownership
+echo "Changing ownership to $APP_USER:$APP_GROUP..."
+chown -R $APP_USER:$APP_GROUP "$APP_DIR"
+# Set directory and file permissions
+echo "Setting director
+

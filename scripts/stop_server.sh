@@ -1,20 +1,13 @@
 #!/bin/bash
-
 set -e
-
-echo "Stopping the .NET application..."
-
-# Replace with your app's directory and DLL name
-APP_DIR="/home/ec2-user/app"
-APP_DLL="MyApp.dll"
-
-# Find the PID of the running .NET app
-PIDS=$(pgrep -f "dotnet $APP_DLL")
-
-if [ -z "$PIDS" ]; then
-  echo "No .NET application process found."
+echo "Running stopserver.sh..."
+# Get the process ID of the running .NET app
+PID=$(pgrep -f "dotnet .*MyApp.dll")
+if [ -z "$PID" ]; then
+  echo "No running instance of MyApp.dll found."
 else
-  echo "Killing process(es): $PIDS"
-  kill -9 $PIDS
-  echo ".NET application stopped."
-fi
+  echo "Stopping MyApp.dll (PID $PID)..."
+  kill -9 $PID
+  echo "Process terminated."
+f
+

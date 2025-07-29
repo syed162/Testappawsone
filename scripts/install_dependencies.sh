@@ -1,23 +1,24 @@
 #!/bin/bash
-
 set -e
+echo "Running install_dependencies.sh..."
+# Check if .NET 8 SDK is already installed
+if dotnet --list-sdks | grep -q "8.0"; then
+    echo ".NET 8 SDK already installed."
+else
+    echo "Installing .NET 8 SDK..."
+    # Add Microsoft package signing key and repository
+    wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    sudo dpkg -i packages-microsoft-prod.deb
+    # Update package lists and install .NET SDK 8.0
+    sudo apt-get update
+    sudo apt-get install -y apt-transport-https
+    sudo apt-get update
+    sudo apt-get install -y dotnet-sdk-8.0
 
-echo "Installing .NET Runtime for Amazon Linux 2..."
+    echo ".NET 8 SDK installed."
+fi
+# Optional: Check installed version
+dotnet --version
+echo "install_dependencies.sh completed."
 
-# Enable required repos and update packages
-sudo yum update -y
 
-# Add the Microsoft package signing key and repository
-sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
-
-# Install the .NET runtime (adjust version as needed)
-sudo yum install -y aspnetcore-runtime-6.0
-
-# Optionally: install .NET SDK if you need to build on the instance
-# sudo yum install -y dotnet-sdk-6.0
-
-echo ".NET Runtime installed successfully."
-
-# Optional: install other dependencies
-# sudo yum install -y nginx
-# sudo yum install -y git
