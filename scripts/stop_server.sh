@@ -10,4 +10,3 @@ else
   kill -9 $PID
   echo "Process terminated."
 f
-

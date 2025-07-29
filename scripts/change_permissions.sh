@@ -14,4 +14,3 @@ echo "Changing ownership to $APP_USER:$APP_GROUP..."
 chown -R $APP_USER:$APP_GROUP "$APP_DIR"
 # Set directory and file permissions
 echo "Setting director
-

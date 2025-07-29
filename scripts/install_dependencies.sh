@@ -20,5 +20,3 @@ fi
 # Optional: Check installed version
 dotnet --version
 echo "install_dependencies.sh completed."
-
-
