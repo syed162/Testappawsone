@@ -1,16 +1,21 @@
 #!/bin/bash
 set -e
-echo "Running change_permissions.sh..."
+
+echo "Running changepermission.sh..."
+
+# Define your application directory
 APP_DIR="/var/www/myapp"
-APP_USER="ec2-user"
-APP_GROUP="ec2-user"
+
 # Ensure the directory exists
-if [ ! -d "$APP_DIR" ]; then
-  echo "Application directory $APP_DIR does not exist. Exiting."
-  exit 1
-fi
-# Set ownership
-echo "Changing ownership to $APP_USER:$APP_GROUP..."
-chown -R $APP_USER:$APP_GROUP "$APP_DIR"
-# Set directory and file permissions
-echo "Setting director
+echo "Ensuring $APP_DIR exists..."
+mkdir -p "$APP_DIR"
+
+# Set ownership to ec2-user (or the user running the app)
+echo "Setting ownership to ec2-user..."
+chown -R ec2-user:ec2-user "$APP_DIR"
+
+# Set permissions
+echo "Setting directory and file permissions..."
+chmod -R 755 "$APP_DIR"
+
+echo "changepermission.sh completed."

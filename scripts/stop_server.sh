@@ -1,12 +1,17 @@
 #!/bin/bash
 set -e
-echo "Running stopserver.sh..."
-# Get the process ID of the running .NET app
-PID=$(pgrep -f "dotnet .*MyApp.dll")
-if [ -z "$PID" ]; then
-  echo "No running instance of MyApp.dll found."
+
+echo "Running stop_server.sh..."
+
+# Name of the systemd service
+SERVICE_NAME="my-dotnet-app"
+
+# Check if the service is running
+if systemctl is-active --quiet "$SERVICE_NAME"; then
+    echo "Stopping $SERVICE_NAME service..."
+    sudo systemctl stop "$SERVICE_NAME"
 else
-  echo "Stopping MyApp.dll (PID $PID)..."
-  kill -9 $PID
-  echo "Process terminated."
-f
+    echo "$SERVICE_NAME is not running."
+fi
+
+echo "stop_server.sh completed."

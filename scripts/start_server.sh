@@ -1,10 +1,24 @@
 #!/bin/bash
 set -e
-echo "Running startserver.sh..."
-APP_DIR="/var/www/myapp"
-APP_DLL="MyApp.dll"
-LOG_FILE="/var/log/myapp.log"
-cd $APP_DIR
-echo "Starting $APP_DLL..."
-nohup dotnet $APP_DLL > $LOG_FILE 2>&1 &
-echo "Application started. Logs are being written to $LOG_FILE"
+
+echo "Running start_server.sh..."
+
+# Name of the systemd service
+SERVICE_NAME="my-dotnet-app"
+
+# Reload systemd to ensure service file changes are picked up
+echo "Reloading systemd daemon..."
+sudo systemctl daemon-reload
+
+# Enable service to start on boot
+echo "Enabling $SERVICE_NAME service..."
+sudo systemctl enable "$SERVICE_NAME"
+
+# Start the service
+echo "Starting $SERVICE_NAME service..."
+sudo systemctl start "$SERVICE_NAME"
+
+# Optional: Check service status
+sudo systemctl status "$SERVICE_NAME" --no-pager
+
+echo "start_server.sh completed."
